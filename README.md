@@ -19,7 +19,7 @@
     support enabled.
   - curl/libcurl features enabled by default (`{upcoming}`):
     <br>`dict file ftp ftps gopher gophers http https imap imaps ldap ldaps mqtt pop3 pop3s rtsp scp sftp smb smbs smtp smtps telnet tftp`
-    <br>`alt-svc AsynchDNS brotli gsasl HSTS HTTP2 IDN IPv6 Kerberos Largefile libz NTLM SPNEGO SSL SSPI UnixSockets zstd`
+    <br>`alt-svc AsynchDNS gsasl HSTS HTTP2 IDN IPv6 Kerberos Largefile libz NTLM SPNEGO SSL SSPI UnixSockets`
   - To link libcurl statically, link against this list of libraries:
     `-lcurl -lssh2 -lnghttp2 -lssl -lcrypto -lgsasl -lidn2 -lbrotlidec-static -lbrotlicommon-static -lzstd -lcrypt32 -lwldap32`
   - The build process is fully transparent by using publicly available
