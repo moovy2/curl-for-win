@@ -4,17 +4,11 @@ version: 1.0.{build}
 branches:
   only:
     - main
-    - main-quic
-    - main-libressl
     - main-mini
     - dev
-    - dev-quic
-    - dev-libressl
     - dev-mini
     - dev-appveyor
     - test
-    - test-quic
-    - test-libressl
     - test-mini
     - test-appveyor
 # https://www.appveyor.com/docs/build-environment/#build-worker-images
@@ -25,7 +19,6 @@ clone_depth: 8
 build:
   verbosity: detailed
 environment:
-  DOCKER_IMAGE: debian:testing-20220509-slim
   VIRUSTOTAL_APIKEY:
     secure: 9SXnYhOkq6CP97zQ+dUc+NzKpKVIoVACMi0wwtLkaUv9y8BimLo5B7XSWBQ9lYwKbQY8JSJ10JFtyxrKRN6O0PK5U7i6bhg4/B6c40ieHHw=
   SIGN_CODE_GPG_PASS:
@@ -38,18 +31,19 @@ environment:
   SIGN_PKG_KEY_PASS:
     secure: oiRd7ampzOXgpGQBEkKG1uY/1LIAfEA5HAWPxNrC4smeZHkfqKaNTpKPTE7lzpcv
   DEPLOY_GPG_PASS:
-    secure: bnL3+KC1CKO+vEE2MzgeoNX6rGuwB6L/ItM55z6Dd39R3JYVBGig16FQWNMzSRQK
+    secure: kk7XdgGJ+GGuB2gvuD3bp5rX/4bHoG8SAV8U5x7LEhKQSPeDa1h2ThzqgKzCkoC0
   DEPLOY_KEY_PASS:
-    secure: yqzKOttlHYVNIqJWC/tnmB8Qu+87mOVxJa7h6uD7WLU32XjUhTEDp9ZwpgmQD1RH
+    secure: xa1MSB2OafRDTyiJa/063us+TWPZVoD17AhDd5bzGx32ep1vXaoSEJN9ibTfxnqO
   CC: mingw-clang
   DO_NOT_TRACK: 1
 build_script:
   - sh: |
+      export DOCKER_IMAGE='debian:testing'
       time docker pull "${DOCKER_IMAGE}"
       docker images --digests
       time docker run --volume "$(pwd):$(pwd)" --workdir "$(pwd)" \
         --env-file <(env | grep -a -E \
-          '^(CC|DO_NOT_TRACK|VIRUSTOTAL_|SIGN_|DEPLOY_|APPVEYOR_|CI_)') \
+          '^(CC|DO_NOT_TRACK|VIRUSTOTAL_|SIGN_|DEPLOY_|APPVEYOR_|GITLAB_|CI_)') \
         "${DOCKER_IMAGE}" \
         sh -c ./_ci-linux-debian.sh
 artifacts:
